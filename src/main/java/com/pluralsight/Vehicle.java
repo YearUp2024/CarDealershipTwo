@@ -10,6 +10,9 @@ public class Vehicle {
     private int odometer;
     private double price;
 
+
+    public Vehicle(){};
+
     /**
      * This is a Contracture.
      * @param vin
