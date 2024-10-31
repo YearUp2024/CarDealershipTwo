@@ -45,14 +45,6 @@ public abstract class SalesContract extends Contract{
     }
 
     @Override
-    public double getTotalPrice() {
-        Vehicle vehicle = super.isVehicleSold();
-        double vehiclePrice = vehicle.getPrice();
-        double salesTax = vehiclePrice * salesTex;
-        return vehiclePrice + salesTax + recordingFee + processingFee;
-    }
-
-    @Override
     public double getMonthlyPayment() {
         Vehicle vehicle = super.isVehicleSold();
 
@@ -60,12 +52,21 @@ public abstract class SalesContract extends Contract{
             return 0;
         }
 
-       double rate = vehicle.getPrice() >= 10000 ? 0.0425 : 0.0525;
-       int leaseTime = vehicle.getPrice() > 10000 ? 48 : 24;
-       double monthlyRate = rate / 12;
+        double rate = vehicle.getPrice() >= 10000 ? 0.0425 : 0.0525;
+        int leaseTime = vehicle.getPrice() > 10000 ? 48 : 24;
+        double monthlyRate = rate / 12;
 
-       return (totlaPrice * monthlyRate) / (1 - Math.pow(1 + monthlyRate, - leaseTime));
+        return (totlaPrice * monthlyRate) / (1 - Math.pow(1 + monthlyRate, - leaseTime));
     }
+
+    @Override
+    public double getTotalPrice() {
+        Vehicle vehicle = super.isVehicleSold();
+        double vehiclePrice = vehicle.getPrice();
+        double salesTax = vehiclePrice * salesTex;
+        return vehiclePrice + salesTax + recordingFee + processingFee;
+    }
+
 }
 
 
