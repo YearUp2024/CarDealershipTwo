@@ -1,4 +1,6 @@
-package com.pluralsight;
+package com.pluralsight.Dealership;
+
+import com.pluralsight.Console;
 
 public class UserInterface {
     private Dealership dealership;
