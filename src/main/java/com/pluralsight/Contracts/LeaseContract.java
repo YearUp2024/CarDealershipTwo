@@ -1,5 +1,6 @@
 package com.pluralsight.Contracts;
 
+import com.pluralsight.BankingCalculators;
 import com.pluralsight.Dealership.Vehicle;
 
 public class LeaseContract extends Contract{
@@ -10,8 +11,8 @@ public class LeaseContract extends Contract{
 
     public LeaseContract(String date, String customerName, String customerEmail, Vehicle vehicleSold, double expectedEndingValue, double leaseFee) {
         super(date, customerName, customerEmail, vehicleSold);
-        this.expectedEndingValue = expectedEndingValue;
-        this.leaseFee = leaseFee;
+        this.expectedEndingValue = vehicleSold.getPrice() * expectedEndingValuePactOfPrice;
+        this.leaseFee = vehicleSold.getPrice() * leaseFeePercentage;
     }
 
     public double getExpectedEndingValue() {
@@ -32,11 +33,14 @@ public class LeaseContract extends Contract{
 
     @Override
     public double getTotalPrice() {
-        return 0;
+        return (this.expectedEndingValuePactOfPrice * this.getLeaseFee());
     }
 
     @Override
     public double getMonthlyPayment() {
-        return 0;
+        double financeRate = 0.04;
+        double financeTerm = 36;
+
+        return BankingCalculators.calculateLoanPayment(this.getTotalPrice(), financeRate, financeTerm);
     }
 }
