@@ -1,7 +1,6 @@
 package com.pluralsight.Contracts;
 
 import com.pluralsight.Dealership.Vehicle;
-import com.pluralsight.Main;
 
 public class SalesContract extends Contract{
     private double recordingFee;
