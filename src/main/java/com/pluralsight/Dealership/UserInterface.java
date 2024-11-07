@@ -2,6 +2,7 @@ package com.pluralsight.Dealership;
 
 import com.pluralsight.Console;
 import com.pluralsight.Contracts.Contract;
+import com.pluralsight.Contracts.LeaseContract;
 import com.pluralsight.Contracts.SalesContract;
 
 import java.util.Currency;
@@ -207,7 +208,7 @@ public class UserInterface {
             }while(true);
             contract = new SalesContract(date, customerName, customerEmail, vehicle, isFinanced);
         }else{
-            //Do later
+            contract = new LeaseContract(date, customerName, customerEmail, vehicle);
         }
         System.out.println(contract);
         System.out.println(contract.getTotalPrice());

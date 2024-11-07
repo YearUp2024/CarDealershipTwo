@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-
 public class DealershipFileManager {
     private static String fileName = "inventory.csv";
 
@@ -97,3 +96,4 @@ public class DealershipFileManager {
         }
     }
 }
+
