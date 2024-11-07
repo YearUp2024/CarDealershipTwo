@@ -104,6 +104,15 @@ public class Dealership {
         return vehicles;
     }
 
+    public Vehicle getVehicleByVin(int vin){
+        for(Vehicle vehicle : inventory){
+            if(vehicle.getVin() == vin){
+                return vehicle;
+            }
+        }
+        return null;
+    }
+
     /**
      * This is adding vehicle by model into a ArrayList and returning that into a List.
      * @param make

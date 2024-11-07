@@ -1,6 +1,10 @@
 package com.pluralsight.Dealership;
 
 import com.pluralsight.Console;
+import com.pluralsight.Contracts.Contract;
+import com.pluralsight.Contracts.SalesContract;
+
+import java.util.Currency;
 
 public class UserInterface {
     private Dealership dealership;
@@ -105,64 +109,174 @@ public class UserInterface {
         }
     }
 
+    public void processSellOrLease(){
+        int vin = 0;
+        String input;
+
+        do{
+            input = Console.PromptForString("Enter a VIN of the vehicle to sell/less (or 'v' to view all vehicles or 'q' to cancel): ");
+
+            if(input.equalsIgnoreCase("q")){
+                return;
+            }
+
+            if(input.equalsIgnoreCase("v")){
+                display();
+                input = "";
+                continue;
+            }
+
+            try{
+                vin = Integer.parseInt(input);
+
+                Vehicle vehicle = dealership.getVehicleByVin(vin);
+                if(vehicle == null){
+                    System.out.println("Vehicle not found. Please try again.");
+                    input = "";
+                    continue;
+                }
+                break;
+            }catch(Exception e){
+                System.out.println("Invalid input. Please enter a valid number.");
+                input = "";
+            }
+        }while(input.isEmpty());
+        System.out.println("\n" + dealership.getVehicleByVin(vin));
+
+        String contractType;
+        do{
+            contractType = Console.PromptForString("Enter contract type (sale/lease) (or 'q' to cancel): ");
+
+            if(contractType.equalsIgnoreCase("q")){
+                return;
+            }
+            if(!contractType.equalsIgnoreCase("sale") && !contractType.equalsIgnoreCase("lease")){
+                System.out.println("Invalid contract type. Please enter 'sale' or 'lease'");
+                contractType = "";
+            }
+        }while(contractType.isEmpty());
+
+        String customerName;
+        do{
+            customerName = Console.PromptForString("Enter your name (or 'q' to cancel): ");
+            if(customerName.equalsIgnoreCase("q")){
+                return;
+            }
+        }while(customerName.isEmpty());
+
+        String customerEmail;
+        do{
+            customerEmail = Console.PromptForString("Enter your email (or 'q' to cancel): ");
+            if(customerName.equalsIgnoreCase("q")){
+                return;
+            }
+        }while(customerEmail.isEmpty());
+
+        String date;
+        do{
+            date = Console.PromptForString("Enter date (YYYYMMDD) (or 'q' to cancel): ");
+            if(date.equalsIgnoreCase("q")){
+                return;
+            }
+            if(date.length() != 8 || !date.matches("\\d{8}")){
+                System.out.println("Invalid data format. Please use YYYYMMDD");
+                date = "";
+            }
+        }while(date.isEmpty());
+
+        Vehicle vehicle = dealership.getVehicleByVin(vin);
+        Contract contract = null;
+
+        if(contractType.equalsIgnoreCase("sale")){
+            String financeInput;
+            boolean isFinanced;
+
+            do{
+                financeInput = Console.PromptForString("Will this be financed? (yes/no) (or 'q' to cancel): ");
+                if(financeInput.equalsIgnoreCase("q")){
+                    return;
+                }
+                if(financeInput.equalsIgnoreCase("yes")){
+                    isFinanced = true;
+                    break;
+                } else if(financeInput.equalsIgnoreCase("no")){
+                    isFinanced = false;
+                    break;
+                }
+                System.out.println("Please enter 'yes' or 'no'");
+            }while(true);
+            contract = new SalesContract(date, customerName, customerEmail, vehicle, isFinanced);
+        }else{
+            //Do later
+        }
+        System.out.println(contract);
+        System.out.println(contract.getTotalPrice());
+        System.out.println(contract.getMonthlyPayment());
+    }
+
     public void displayAll(){
-        String userChoice;
+        int userChoice;
         do{
             System.out.println("Please choose from the options");
-            System.out.println("Display All vehicle:[A] ");
-            System.out.println("Display by Price:[P] ");
-            System.out.println("Display by Company:[C] ");
-            System.out.println("Display by make Year:[Y] ");
-            System.out.println("Display by Millage:[M] ");
-            System.out.println("Display by Car Color:[CC] ");
-            System.out.println("Display by Car Type:[T] ");
-            System.out.println("Add a vehicle:[Add] ");
-            System.out.println("Remove a vehicle:[Remove] ");
-            System.out.println("Enter [E] to exit");
+            System.out.println(" 1 - Display All vehicle ");
+            System.out.println(" 2 - Display by Price:[P] ");
+            System.out.println(" 3 - Display by Company:[C] ");
+            System.out.println(" 4 - Display by make Year:[Y] ");
+            System.out.println(" 5 - Display by Millage:[M] ");
+            System.out.println(" 6 - Display by Car Color:[CC] ");
+            System.out.println(" 7 - Display by Car Type:[T] ");
+            System.out.println(" 8 - Add a vehicle:[Add] ");
+            System.out.println(" 9 - Remove a vehicle:[Remove] ");
+            System.out.println(" 10 - Sell or Lease a vehicle: ");
+            System.out.println(" 99 - Enter [E] to exit");
 
-            userChoice = Console.PromptForString("Please enter your choice: ");
+            userChoice = Console.PromptForInt("Please enter your choice: ");
             System.out.println("\n");
 
             switch (userChoice){
-                case "A":
+                case 1:
                     display();
                     System.out.println("\n");
                     break;
-                case "P":
+                case 2:
                     processGetByPriceRequest();
                     System.out.println("\n");
                     break;
-                case "C":
+                case 3:
                     processGetByMakeModelRequest();
                     System.out.println("\n");
                     break;
-                case "Y":
+                case 4:
                     processGetByYearRequest();
                     System.out.println("\n");
                     break;
-                case "M":
+                case 5:
                     processGetByMileageRequest();
                     System.out.println("\n");
                     break;
-                case "CC":
+                case 6:
                     processGetByColorRequest();
                     System.out.println("\n");
                     break;
-                case "T":
+                case 7:
                     processGetByVehicleTypeRequest();
                     System.out.println("\n");
                     break;
-                case "Add":
+                case 8:
                     processAddVehicleRequest();
                     System.out.println("\n");
                     break;
-                case "remove":
+                case 9:
                     processRemoveVehicleRequest();
+                    System.out.println("\n");
+                    break;
+                case 10:
+                    processSellOrLease();
                     System.out.println("\n");
                     break;
                 default:
                     System.out.println("You choice does not match!!");
             }
-        }while (!userChoice.equalsIgnoreCase("E"));
+        }while (userChoice != 99);
     }
 }
