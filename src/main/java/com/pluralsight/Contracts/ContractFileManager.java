@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class ContractFileManager {
-    private static String fileName = "contract.csv";
+    private static String fileName = "contracts.csv";
 
     public static ArrayList<Contract> getContract(){
         ArrayList<Contract> result = new ArrayList<>();
@@ -34,7 +34,10 @@ public class ContractFileManager {
                                         Integer.parseInt(newLine[10]), // miles
                                        Double.parseDouble(newLine[11]) // price
                                 ),
-                                Boolean.parseBoolean(newLine[11])
+                                Double.parseDouble(newLine[12]),
+                                Double.parseDouble(newLine[13]),
+                                Double.parseDouble(newLine[14]),
+                                Boolean.parseBoolean(newLine[16])
                         );
                         result.add(salesContract);
                     }else if(newLine[0].equalsIgnoreCase("Lease")){
@@ -51,16 +54,18 @@ public class ContractFileManager {
                                         newLine[9], // color
                                         Integer.parseInt(newLine[10]), // miles
                                         Double.parseDouble(newLine[11]) // price
-                                )
+                                ),
+                                Double.parseDouble(newLine[12]),
+                                Double.parseDouble(newLine[13])
                         );
                         result.add(leaseContract);
-                    }else{
-                        //error message
                     }
                 }
             }
         }catch(Exception e){
             e.printStackTrace();
+            return null;
         }
+        return result;
     }
 }

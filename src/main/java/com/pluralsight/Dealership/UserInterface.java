@@ -2,16 +2,21 @@ package com.pluralsight.Dealership;
 
 import com.pluralsight.Console;
 import com.pluralsight.Contracts.Contract;
+import com.pluralsight.Contracts.ContractFileManager;
 import com.pluralsight.Contracts.LeaseContract;
 import com.pluralsight.Contracts.SalesContract;
 
-import java.util.Currency;
+import java.util.ArrayList;
+
 
 public class UserInterface {
     private Dealership dealership;
+    private ArrayList<Contract> contracts;
 
     public UserInterface(){
         this.dealership = DealershipFileManager.getDealership();
+        this.contracts = ContractFileManager.getContract();
+        displayContrats(contracts);
     }
 
     public void display(){
@@ -213,6 +218,12 @@ public class UserInterface {
         System.out.println(contract);
         System.out.println(contract.getTotalPrice());
         System.out.println(contract.getMonthlyPayment());
+    }
+
+    public void displayContrats(ArrayList<Contract> contracts){
+        for(Contract contract : contracts){
+            System.out.println(contract);
+        }
     }
 
     public void displayAll(){
