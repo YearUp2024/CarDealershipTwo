@@ -49,4 +49,9 @@ public class LeaseContract extends Contract{
 
         return BankingCalculators.calculateLoanPayment(this.getTotalPrice(), financeRate, financeTerm);
     }
+
+    @Override
+    public String toString(){
+        return "Contract for " + super.getCustomerName() + " to Lease " + super.getVehicleSold();
+    }
 }
