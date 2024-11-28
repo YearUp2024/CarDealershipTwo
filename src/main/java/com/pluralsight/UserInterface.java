@@ -2,6 +2,20 @@ package com.pluralsight;
 
 public class UserInterface {
     private Dealership dealership;
+    private static String fineNameDealership = "inventory.csv";
+    private static String fineNameContract = "contracts.csv";
+
+    public UserInterface(Dealership dealership) {
+        this.dealership = dealership;
+    }
+
+    public UserInterface() {
+        init();
+    }
+
+    private void init() {
+        this.dealership = DealershipFileManager.getDealership();
+    }
 
     public void display(){
         int options;
@@ -96,6 +110,7 @@ public class UserInterface {
 
         Vehicle vehicle = new Vehicle(vehicleVin, vehicleYear, vehicleMake, vehicleModel, vehicleType, vehicleColor, vehicleOdometer, vehiclePrice);
         dealership.addVehicle(vehicle);
+        DealershipFileManager.saveToCSV(dealership, fineNameDealership);
     }
 
     public void removeVehicleByVin(){

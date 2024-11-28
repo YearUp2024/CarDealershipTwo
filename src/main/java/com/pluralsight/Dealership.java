@@ -115,7 +115,7 @@ public class Dealership {
 
     public void addVehicle(Vehicle vehicle){
         inventory.add(vehicle);
-    }
+    } 
 
     public boolean removeVehicle(int vin){
         Iterator<Vehicle> iterator = inventory.iterator();
