@@ -5,45 +5,74 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Dealership {
+    private String name;
+    private String address;
+    private String phone;
     private List<Vehicle> inventory;
 
-    public Dealership(List<Vehicle> inventory) {
+    public Dealership(String name, String address, String phone, List<Vehicle> inventory) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
         this.inventory = inventory;
     }
 
-    public void addVehicle(Vehicle vehicle){
-        inventory.add(vehicle);
+    public String getName() {
+        return name;
     }
 
-    public boolean removeVehicle(int vin){
-        Iterator<Vehicle> iterator = inventory.iterator();
-        while(iterator.hasNext()){
-            if(iterator.next().getVin() == vin){
-                iterator.remove();
-                return true;
-            }
-        }
-        return false;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<Vehicle> getAllVehicles(){
-        return new ArrayList<>(inventory);
+    public String getAddress() {
+        return address;
     }
 
-    public List<Vehicle> getVehicleByPrice(double minPrice, double maxPrice){
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public List<Vehicle> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(List<Vehicle> inventory) {
+        this.inventory = inventory;
+    }
+
+    public List<Vehicle> getVehicleByPrice(double min, double max){
         List<Vehicle> result = new ArrayList<>();
         for(Vehicle vehicle : inventory){
-            if(vehicle.getPrice() >= minPrice && vehicle.getPrice() <= maxPrice){
+            if(vehicle.getPrice() >= min && vehicle.getPrice() <= max){
                 result.add(vehicle);
             }
         }
         return result;
     }
 
-    public List<Vehicle> getVehicleByMake(String make){
+    public List<Vehicle> getVehicleByModel(String model){
         List<Vehicle> result = new ArrayList<>();
         for(Vehicle vehicle : inventory){
-            if(vehicle.getMake().equalsIgnoreCase(make)){
+            if(vehicle.getModel().equalsIgnoreCase(model)){
+                result.add(vehicle);
+            }
+        }
+        return result;
+    }
+
+    public List<Vehicle> getVehicleByYear(int year){
+        List<Vehicle> result = new ArrayList<>();
+        for(Vehicle vehicle : inventory){
+            if(vehicle.getYear() == year){
                 result.add(vehicle);
             }
         }
@@ -60,7 +89,17 @@ public class Dealership {
         return result;
     }
 
-    public List<Vehicle> getVehicleBYType(String vehicleType){
+    public List<Vehicle> getVehicleByMileage(int odometer){
+        List<Vehicle> result = new ArrayList<>();
+        for(Vehicle vehicle : inventory){
+            if(vehicle.getOdometer() == odometer){
+                result.add(vehicle);
+            }
+        }
+        return result;
+    }
+
+    public List<Vehicle> getVehicleByType(String vehicleType){
         List<Vehicle> result = new ArrayList<>();
         for(Vehicle vehicle : inventory){
             if(vehicle.getVehicleType().equalsIgnoreCase(vehicleType)){
@@ -70,23 +109,24 @@ public class Dealership {
         return result;
     }
 
-    public List<Vehicle> getVehicleByMileage(int mileage){
-        List<Vehicle> result = new ArrayList<>();
-        for(Vehicle vehicle : inventory){
-            if(vehicle.getOdometer() == mileage){
-                result.add(vehicle);
-            }
-        }
-        return result;
+    public List<Vehicle> displayAllVehicle(){
+        return new ArrayList<>(inventory);
     }
 
-    public List<Vehicle> getVehicleByYear(int year){
-        List<Vehicle> result = new ArrayList<>();
-        for(Vehicle vehicle : inventory){
-            if(vehicle.getYear() == year){
-                result.add(vehicle);
+    public void addVehicle(Vehicle vehicle){
+        inventory.add(vehicle);
+    }
+
+    public boolean removeVehicle(int vin){
+        Iterator<Vehicle> iterator = inventory.iterator();
+        while(iterator.hasNext()){
+            if(iterator.next().getVin() == vin){
+                iterator.remove();
+                System.out.println("Vehicle with VIN: " + vin + " is removed!");
+                return true;
             }
         }
-        return result;
+        System.out.println("Vehicle with " + vin + " id was not found in the inventory");
+        return false;
     }
 }
