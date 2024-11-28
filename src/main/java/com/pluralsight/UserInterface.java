@@ -3,7 +3,6 @@ package com.pluralsight;
 public class UserInterface {
     private Dealership dealership;
     private static String fineNameDealership = "inventory.csv";
-    private static String fineNameContract = "contracts.csv";
 
     public UserInterface(Dealership dealership) {
         this.dealership = dealership;
@@ -52,9 +51,7 @@ public class UserInterface {
     public void processVehicleByPrice(){
         int minPrice = Console.PromptForInt("Enter Min price: ");
         int maxPrice = Console.PromptForInt("Enter Max price: ");
-        for(Vehicle vehicle : dealership.getVehicleByPrice(minPrice, maxPrice)){
-            System.out.println(vehicle);
-        }
+        dealership.getVehicleByPrice(minPrice, maxPrice).forEach(System.out::println);
     }
 
     public void processVehicleByMake(){
@@ -110,7 +107,14 @@ public class UserInterface {
 
         Vehicle vehicle = new Vehicle(vehicleVin, vehicleYear, vehicleMake, vehicleModel, vehicleType, vehicleColor, vehicleOdometer, vehiclePrice);
         dealership.addVehicle(vehicle);
-        DealershipFileManager.saveToCSV(dealership, fineNameDealership);
+        DealershipFileManager.saveDealership(this.dealership);
+
+        boolean added = dealership.addVehicle(vehicle);
+        if(added){
+            System.out.println("New Vehicle Added");
+        }else{
+            System.out.println("New Vehicle was not able to be added");
+        }
     }
 
     public void removeVehicleByVin(){

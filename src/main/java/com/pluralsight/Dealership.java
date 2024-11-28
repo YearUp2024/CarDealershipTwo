@@ -113,8 +113,13 @@ public class Dealership {
         return new ArrayList<>(inventory);
     }
 
-    public void addVehicle(Vehicle vehicle){
-        inventory.add(vehicle);
+    public boolean addVehicle(Vehicle vehicle){
+        if(inventory == null){
+            return false;
+        }
+
+        boolean addedVehicle = inventory.add(vehicle);
+        return addedVehicle;
     } 
 
     public boolean removeVehicle(int vin){
