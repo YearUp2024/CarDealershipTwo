@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContractFileManager {
-    private static String contractFile = "contracts.csv";
+    private static String contractFile = "inventory.csv";
 
     public void saveContract(Contract contract){
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(contractFile))){
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(contractFile, true))){
             bufferedWriter.write(contract.encode());
             bufferedWriter.newLine();
         }catch(Exception e){

@@ -1,11 +1,22 @@
 package com.pluralsight;
 
+import com.pluralsight.Contracts.Contract;
+import com.pluralsight.Contracts.ContractFileManager;
+import com.pluralsight.Contracts.LeaseContract;
+import com.pluralsight.Contracts.SalesContract;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 public class UserInterface {
     private Dealership dealership;
     private static String fineNameDealership = "inventory.csv";
+    private List<Contract> contracts;
+    private ContractFileManager contractFileManager;
 
     public UserInterface(Dealership dealership) {
-        this.dealership = dealership;
+        this.contractFileManager = new ContractFileManager();
+        this.contracts = contractFileManager.loadContracts(dealership);
     }
 
     public UserInterface() {
@@ -40,6 +51,8 @@ public class UserInterface {
                 case 7 -> displayAllVehicle();
                 case 8 -> addVehicle();
                 case 9 -> removeVehicleByVin();
+                case 10 -> processLeaseVehicle();
+                case 11 -> processSaleVehicle();
             }
         }while(options != 99);
     }
@@ -120,6 +133,33 @@ public class UserInterface {
         boolean removeVehicle = dealership.removeVehicle(vehicleVin);
         if(removeVehicle){
             System.out.println("Vehicle with VIN: " + vehicleVin + " was not found.");
+        }
+    }
+
+    public void processLeaseVehicle(){
+        int vin = Console.PromptForInt("Enter vehicle VIN: ");
+        Vehicle vehicle = dealership.getVehicleByVin(vin);
+        if(vehicle != null){
+            String customerName = Console.PromptForString("Enter Customer name: ");
+            String customerEmail = Console.PromptForString("Enter Customer email: ");
+            LeaseContract leaseContract = new LeaseContract(LocalDateTime.now().getDayOfYear(), customerName, customerEmail, vehicle);
+            ContractFileManager contractFileManager = new ContractFileManager();
+            contractFileManager.saveContract(leaseContract);
+            System.out.println("Lease Contract Created Successfully!");
+        }
+    }
+
+    public void processSaleVehicle(){
+        int vin = Console.PromptForInt("Enter vehicle VIN: ");
+        Vehicle vehicle = dealership.getVehicleByVin(vin);
+        if(vehicle != null){
+            String customerName = Console.PromptForString("Enter Customer name: ");
+            String customerEmail = Console.PromptForString("Enter Customer email: ");
+            boolean financed = Console.PromptForYesNo("Do you want to financed (Yes/No): ");
+            SalesContract salesContract = new SalesContract(LocalDateTime.now().getDayOfYear(), customerName, customerEmail, vehicle, financed);
+            ContractFileManager contractFileManager = new ContractFileManager();
+            contractFileManager.saveContract(salesContract);
+            System.out.println("Sales Contract Created Successfully!");
         }
     }
 }
