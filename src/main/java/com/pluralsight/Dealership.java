@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Dealership {
+public class Dealership implements ITextEncodable{
     private String name;
     private String address;
     private String phone;
@@ -59,10 +59,10 @@ public class Dealership {
         return result;
     }
 
-    public List<Vehicle> getVehicleByModel(String model){
+    public List<Vehicle> getVehicleByModel(String make, String model){
         List<Vehicle> result = new ArrayList<>();
         for(Vehicle vehicle : inventory){
-            if(vehicle.getModel().equalsIgnoreCase(model)){
+            if(vehicle.getMake().equalsIgnoreCase(make) && vehicle.getModel().equalsIgnoreCase(model)){
                 result.add(vehicle);
             }
         }
@@ -89,10 +89,10 @@ public class Dealership {
         return result;
     }
 
-    public List<Vehicle> getVehicleByMileage(int odometer){
+    public List<Vehicle> getVehicleByMileage(int minMileage, int maxMileage){
         List<Vehicle> result = new ArrayList<>();
         for(Vehicle vehicle : inventory){
-            if(vehicle.getOdometer() == odometer){
+            if(vehicle.getOdometer() >= minMileage && vehicle.getOdometer() <= maxMileage){
                 result.add(vehicle);
             }
         }
@@ -107,6 +107,15 @@ public class Dealership {
             }
         }
         return result;
+    }
+
+    public Vehicle getVehicleByVin(int vin){
+        for(Vehicle vehicle : inventory){
+            if(vehicle.getVin() == vin){
+                return vehicle;
+            }
+        }
+        return null;
     }
 
     public List<Vehicle> displayAllVehicle(){
@@ -133,5 +142,17 @@ public class Dealership {
         }
         System.out.println("Vehicle with " + vin + " id was not found in the inventory");
         return false;
+    }
+
+    @Override
+    public String encode() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(this.getName()).append("|").append(this.getAddress()).append("|").append(this.getPhone()).append("\n");
+
+        for(Vehicle v : this.inventory){
+            sb.append(v.encode()).append("\n");
+        }
+        return sb.toString();
     }
 }

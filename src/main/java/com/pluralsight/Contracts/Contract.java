@@ -1,8 +1,9 @@
 package com.pluralsight.Contracts;
 
+import com.pluralsight.ITextEncodable;
 import com.pluralsight.Vehicle;
 
-public abstract class Contract {
+public abstract class Contract implements ITextEncodable {
     private int dateOfContract;
     private String customerName;
     private String customerEmail;
@@ -49,4 +50,13 @@ public abstract class Contract {
 
     public abstract double getTotalPrice();
     public abstract double getMonthlyPayment();
+
+    @Override
+    public String toString() {
+        return String.format("Contract Date: %d, Customer: %s, Email: %s, Vehicle: %s",
+                dateOfContract,
+                customerName,
+                customerEmail,
+                vehicleSold.toString());
+    }
 }

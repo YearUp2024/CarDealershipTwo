@@ -37,7 +37,7 @@ public class DealershipFileManager {
             }
             bufferedReader.close();
         }catch(Exception e){
-            e.printStackTrace();
+            System.out.println("Error getting dealership: " + e.getMessage());
         }
         return dealership;
     }
@@ -54,15 +54,6 @@ public class DealershipFileManager {
                 );
 
                 for(Vehicle vehicle : dealership.displayAllVehicle()){
-                    vehicle.getVin();
-                    vehicle.getYear();
-                    vehicle.getMake();
-                    vehicle.getModel();
-                    vehicle.getVehicleType();
-                    vehicle.getColor();
-                    vehicle.getOdometer();
-                    vehicle.getPrice();
-
                     bufferedWriter.write(new StringBuilder()
                             .append(vehicle.getVin()).append("|")
                             .append(vehicle.getYear()).append("|")
@@ -75,7 +66,7 @@ public class DealershipFileManager {
                     );
                 }
             }catch(Exception e){
-                e.getMessage();
+                System.out.println("Error saving dealership: " + e.getMessage());
             }
         }
         return "Dealership added successfully!";

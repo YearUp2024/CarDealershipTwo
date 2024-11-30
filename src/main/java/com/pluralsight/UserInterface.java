@@ -9,10 +9,6 @@ public class UserInterface {
     }
 
     public UserInterface() {
-        init();
-    }
-
-    private void init() {
         this.dealership = DealershipFileManager.getDealership();
     }
 
@@ -56,7 +52,8 @@ public class UserInterface {
 
     public void processVehicleByMake(){
         String vehicleMake = Console.PromptForString("Enter Vehicle make: ");
-        for(Vehicle vehicle : dealership.getVehicleByModel(vehicleMake)){
+        String vehicleModel = Console.PromptForString("Enter Vehicle model: ");
+        for(Vehicle vehicle : dealership.getVehicleByModel(vehicleMake, vehicleModel)){
             System.out.println(vehicle);
         }
     }
@@ -76,8 +73,9 @@ public class UserInterface {
     }
 
     public void processVehicleByMileage(){
-        int vehicleMileage = Console.PromptForInt("Enter Vehicle Mileage: ");
-        for(Vehicle vehicle : dealership.getVehicleByMileage(vehicleMileage)){
+        int minMileage = Console.PromptForInt("Enter Vehicle Minimum Mileage: ");
+        int maxMileage = Console.PromptForInt("Enter Vehicle Maximum Mileage: ");
+        for(Vehicle vehicle : dealership.getVehicleByMileage(minMileage, maxMileage)){
             System.out.println(vehicle);
         }
     }
@@ -125,14 +123,3 @@ public class UserInterface {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-

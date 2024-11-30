@@ -1,6 +1,6 @@
 package com.pluralsight.Contracts;
 
-import com.pluralsight.Main;
+import com.pluralsight.ITextEncodable;
 import com.pluralsight.Vehicle;
 
 public class LeaseContract extends Contract{
@@ -47,7 +47,7 @@ public class LeaseContract extends Contract{
 
     @Override
     public double getTotalPrice(){
-        return (this.expectedEndingValue * this.getLeaseFee());
+        return getVehicleSold().getPrice() - expectedEndingValue + leaseFee;
     }
 
     @Override
@@ -57,5 +57,27 @@ public class LeaseContract extends Contract{
         int loanMonth = 36;
         double monthlyInterestRate = interestRate / 12;
         return (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, - loanMonth));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Lease Contract - Customer: %s, Vehicle: %s, Monthly Payment: $%.2f, Lease Fee: $%.2f",
+                getCustomerName(),
+                getVehicleSold().getMake() + " " + getVehicleSold().getModel(),
+                getMonthlyPayment(),
+                getLeaseFee());
+    }
+
+    @Override
+    public String encode() {
+        return "LEASE|" +
+                this.getDateOfContract() + "|" +
+                this.getCustomerName() + "|" +
+                this.getCustomerEmail() + "|" +
+                this.getVehicleSold().encode() + "|" +
+                this.getExpectedEndingValue() + "|" +
+                this.getLeaseFee() + "|" +
+                this.getTotalPrice() + "|" +
+                this.getMonthlyPayment();
     }
 }
